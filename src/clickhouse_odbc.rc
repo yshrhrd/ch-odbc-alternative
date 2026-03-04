@@ -1,0 +1,85 @@
+#include <windows.h>
+#include "resource.h"
+
+/* Version Information */
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     1,1,0,0
+PRODUCTVERSION  1,1,0,0
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       0
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_DLL
+FILESUBTYPE     VFT2_DRV_INSTALLABLE
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName",      "clickhouse-odbc-alternative"
+            VALUE "FileDescription",  "CH ODBC Alternative - ClickHouse ODBC Driver"
+            VALUE "FileVersion",      "1.1.0.0"
+            VALUE "InternalName",     "ch-odbc-alternative"
+            VALUE "OriginalFilename", "ch-odbc-alternative.dll"
+            VALUE "ProductName",      "CH ODBC Alternative"
+            VALUE "ProductVersion",   "1.1.0.0"
+            VALUE "LegalCopyright",   "Apache License 2.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END
+
+/* DSN Configuration Dialog */
+IDD_DSN_CONFIG DIALOGEX 0, 0, 280, 320
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "CH ODBC Alternative - DSN Configuration"
+FONT 9, "Segoe UI", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Connection", -1, 7, 7, 266, 142
+
+    LTEXT           "DSN &Name:", -1, 14, 22, 60, 8
+    EDITTEXT        IDC_EDIT_DSN, 80, 20, 186, 14, ES_AUTOHSCROLL
+
+    LTEXT           "&Description:", -1, 14, 40, 60, 8
+    EDITTEXT        IDC_EDIT_DESCRIPTION, 80, 38, 186, 14, ES_AUTOHSCROLL
+
+    LTEXT           "&Host:", -1, 14, 58, 60, 8
+    EDITTEXT        IDC_EDIT_HOST, 80, 56, 186, 14, ES_AUTOHSCROLL
+
+    LTEXT           "&Port:", -1, 14, 76, 60, 8
+    EDITTEXT        IDC_EDIT_PORT, 80, 74, 60, 14, ES_AUTOHSCROLL | ES_NUMBER
+
+    LTEXT           "Data&base:", -1, 14, 94, 60, 8
+    EDITTEXT        IDC_EDIT_DATABASE, 80, 92, 186, 14, ES_AUTOHSCROLL
+
+    LTEXT           "&User:", -1, 14, 112, 60, 8
+    EDITTEXT        IDC_EDIT_UID, 80, 110, 186, 14, ES_AUTOHSCROLL
+
+    LTEXT           "Pass&word:", -1, 14, 130, 60, 8
+    EDITTEXT        IDC_EDIT_PWD, 80, 128, 186, 14, ES_AUTOHSCROLL | ES_PASSWORD
+
+    GROUPBOX        "SSL / TLS", -1, 7, 155, 266, 35
+
+    AUTOCHECKBOX    "&SSL (HTTPS)", IDC_CHECK_SSL, 14, 170, 80, 10
+    AUTOCHECKBOX    "Verify Cer&tificate", IDC_CHECK_SSL_VERIFY, 140, 170, 120, 10
+
+    GROUPBOX        "Advanced", -1, 7, 195, 266, 80
+
+    AUTOCHECKBOX    "HTTP &Compression", IDC_CHECK_COMPRESSION, 14, 210, 120, 10
+
+    AUTOCHECKBOX    "&Lazy Paging", IDC_CHECK_LAZYPAGING, 14, 225, 120, 10
+
+    LTEXT           "Page Size:", -1, 14, 242, 60, 8
+    EDITTEXT        IDC_EDIT_PAGESIZE, 80, 240, 60, 14, ES_AUTOHSCROLL | ES_NUMBER
+
+    LTEXT           "Max Rows (0=unlimited):", -1, 14, 260, 90, 8
+    EDITTEXT        IDC_EDIT_MAXROWS, 108, 258, 60, 14, ES_AUTOHSCROLL | ES_NUMBER
+
+    PUSHBUTTON      "&Test Connection", IDC_BTN_TEST, 7, 282, 80, 16
+    DEFPUSHBUTTON   "OK", IDOK, 166, 282, 50, 16
+    PUSHBUTTON      "Cancel", IDCANCEL, 222, 282, 50, 16
+
+    LTEXT           "CH ODBC Alternative (default port: HTTP=8123, HTTPS=8443)", -1, 7, 304, 260, 8
+END

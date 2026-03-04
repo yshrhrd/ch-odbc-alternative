@@ -1,0 +1,11 @@
+[ODBC Drivers]
+CH ODBC Alternative=Installed
+
+[CH ODBC Alternative]
+Driver=ch-odbc-alternative.dll
+Setup=ch-odbc-alternative.dll
+APILevel=1
+ConnectFunctions=YYY
+DriverODBCVer=03.80
+FileUsage=0
+SQLLevel=1

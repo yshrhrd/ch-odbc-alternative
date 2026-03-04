@@ -1,0 +1,25 @@
+<Project>
+  <!-- zlib source files and new tests: add to test project which doesn't have them in vcxproj -->
+  <ItemGroup Condition="'$(ProjectName)'=='clickhouse_odbc_test'">
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\adler32.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\compress.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\crc32.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\deflate.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\gzclose.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\gzlib.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\gzread.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\gzwrite.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\infback.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\inffast.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\inflate.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\inftrees.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\trees.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\uncompr.c" />
+    <ClCompile Include="$(SolutionDir)third_party\zlib_src\zlib-1.3.1\zutil.c" />
+    <ClCompile Include="$(SolutionDir)test\test_phase17.cpp" />
+    <ClCompile Include="$(SolutionDir)test\test_phase18.cpp" />
+    <ClCompile Include="$(SolutionDir)test\test_phase19.cpp" />
+    <ClCompile Include="$(SolutionDir)test\test_phase20.cpp" />
+    <ClCompile Include="$(SolutionDir)test\test_phase21.cpp" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,127 @@
+LIBRARY ch-odbc-alternative
+EXPORTS
+    ; Core handle management
+    SQLAllocHandle
+    SQLFreeHandle
+    SQLAllocEnv
+    SQLFreeEnv
+    SQLAllocConnect
+    SQLFreeConnect
+    SQLAllocStmt
+    SQLFreeStmt
+
+    ; Connection functions
+    SQLConnect
+    SQLConnectW
+    SQLDriverConnect
+    SQLDriverConnectW
+    SQLBrowseConnect
+    SQLBrowseConnectW
+    SQLDisconnect
+    SQLGetConnectAttr
+    SQLGetConnectAttrW
+    SQLSetConnectAttr
+    SQLSetConnectAttrW
+
+    ; Statement functions
+    SQLExecDirect
+    SQLExecDirectW
+    SQLPrepare
+    SQLPrepareW
+    SQLExecute
+    SQLNumResultCols
+    SQLDescribeCol
+    SQLDescribeColW
+    SQLColAttribute
+    SQLColAttributeW
+    SQLBindCol
+    SQLBindParameter
+
+    ; Result retrieval
+    SQLFetch
+    SQLFetchScroll
+    SQLGetData
+    SQLRowCount
+    SQLCloseCursor
+    SQLMoreResults
+
+    ; Catalog functions
+    SQLTables
+    SQLTablesW
+    SQLColumns
+    SQLColumnsW
+    SQLGetTypeInfo
+    SQLGetTypeInfoW
+    SQLPrimaryKeys
+    SQLPrimaryKeysW
+    SQLStatistics
+    SQLStatisticsW
+    SQLSpecialColumns
+    SQLSpecialColumnsW
+    SQLForeignKeys
+    SQLForeignKeysW
+    SQLProcedures
+    SQLProceduresW
+    SQLProcedureColumns
+    SQLProcedureColumnsW
+
+    ; Driver/Environment info
+    SQLGetInfo
+    SQLGetInfoW
+    SQLGetDiagRec
+    SQLGetDiagRecW
+    SQLGetDiagField
+    SQLGetDiagFieldW
+    SQLGetEnvAttr
+    SQLSetEnvAttr
+    SQLGetStmtAttr
+    SQLGetStmtAttrW
+    SQLSetStmtAttr
+    SQLSetStmtAttrW
+
+    ; Misc
+    SQLEndTran
+    SQLNativeSql
+    SQLNativeSqlW
+    SQLGetFunctions
+    SQLCancel
+    SQLNumParams
+    SQLDescribeParam
+    SQLParamData
+    SQLPutData
+    SQLSetPos
+    SQLBulkOperations
+    SQLGetCursorName
+    SQLGetCursorNameW
+    SQLSetCursorName
+    SQLSetCursorNameW
+    SQLColumnPrivileges
+    SQLColumnPrivilegesW
+    SQLTablePrivileges
+    SQLTablePrivilegesW
+
+    ; ODBC 2.x backward compatibility
+    SQLExtendedFetch
+    SQLColAttributes
+    SQLSetScrollOptions
+    SQLError
+    SQLErrorW
+    SQLGetConnectOption
+    SQLSetConnectOption
+    SQLGetStmtOption
+    SQLSetStmtOption
+    SQLTransact
+
+    ; Descriptor functions
+    SQLGetDescField
+    SQLGetDescFieldW
+    SQLSetDescField
+    SQLSetDescFieldW
+    SQLGetDescRec
+    SQLGetDescRecW
+    SQLSetDescRec
+    SQLCopyDesc
+
+    ; DSN configuration
+    ConfigDSN
+    ConfigDSNW

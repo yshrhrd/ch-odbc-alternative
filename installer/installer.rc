@@ -1,0 +1,53 @@
+#include <windows.h>
+#include <commctrl.h>
+#include "resource.h"
+
+/* CH ODBC Alternative - GUI Installer */
+
+IDD_INSTALLER DIALOGEX 0, 0, 340, 310
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX
+CAPTION "CH ODBC Alternative - Setup"
+FONT 9, "Segoe UI", 400, 0, 0x1
+BEGIN
+    LTEXT           "CH ODBC Alternative Installer", -1, 14, 10, 300, 12
+    LTEXT           "x64 ODBC driver for ClickHouse (HTTP interface)", -1, 14, 22, 300, 8
+
+    /* Install Directory */
+    GROUPBOX        "Install Location", -1, 7, 38, 326, 42
+    LTEXT           "Directory:", -1, 14, 56, 40, 8
+    EDITTEXT        IDC_EDIT_INSTALLDIR, 58, 54, 230, 14, ES_AUTOHSCROLL
+    PUSHBUTTON      "...", IDC_BTN_BROWSE, 294, 54, 30, 14
+
+    /* DSN Configuration (optional) */
+    GROUPBOX        "DSN Configuration (optional)", -1, 7, 86, 326, 130
+    AUTOCHECKBOX    "Create DSN after install", IDC_CHECK_CREATE_DSN, 14, 100, 130, 10
+
+    LTEXT           "DSN Name:", -1, 14, 118, 50, 8
+    EDITTEXT        IDC_EDIT_DSN_NAME, 70, 116, 160, 14, ES_AUTOHSCROLL
+
+    LTEXT           "Host:", -1, 14, 136, 50, 8
+    EDITTEXT        IDC_EDIT_HOST, 70, 134, 160, 14, ES_AUTOHSCROLL
+
+    LTEXT           "Port:", -1, 14, 154, 50, 8
+    EDITTEXT        IDC_EDIT_PORT, 70, 152, 60, 14, ES_AUTOHSCROLL | ES_NUMBER
+
+    LTEXT           "Database:", -1, 14, 172, 50, 8
+    EDITTEXT        IDC_EDIT_DATABASE, 70, 170, 160, 14, ES_AUTOHSCROLL
+
+    LTEXT           "User:", -1, 14, 190, 50, 8
+    EDITTEXT        IDC_EDIT_UID, 70, 188, 160, 14, ES_AUTOHSCROLL
+
+    LTEXT           "Password:", -1, 14, 208, 50, 8
+    EDITTEXT        IDC_EDIT_PWD, 70, 206, 160, 14, ES_AUTOHSCROLL | ES_PASSWORD
+
+    /* Progress and Status */
+    CONTROL         "", IDC_PROGRESS, PROGRESS_CLASS, WS_BORDER, 7, 228, 326, 14
+    LTEXT           "Ready.", IDC_STATIC_STATUS, 7, 248, 326, 10
+
+    /* Buttons */
+    DEFPUSHBUTTON   "Install", IDC_BTN_INSTALL, 170, 268, 76, 20
+    PUSHBUTTON      "Uninstall", IDC_BTN_UNINSTALL, 253, 268, 76, 20
+    PUSHBUTTON      "Close", IDCANCEL, 7, 268, 76, 20
+
+    LTEXT           "Requires Administrator privileges for driver registration.", -1, 7, 295, 300, 8
+END

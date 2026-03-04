@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
+    <RootNamespace>clickhouse_odbc</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>clickhouse_odbc</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)out\$(Configuration)\obj\</IntDir>
+    <TargetName>ch-odbc-alternative</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)out\$(Configuration)\obj\</IntDir>
+    <TargetName>ch-odbc-alternative</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;CLICKHOUSE_ODBC_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;CPPHTTPLIB_ZLIB_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\include;$(SolutionDir)third_party\cpp-httplib;$(SolutionDir)third_party\nlohmann;$(SolutionDir)third_party\zlib\include;$(SolutionDir)third_party\zlib_src\zlib-1.3.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;ws2_32.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>$(SolutionDir)src\clickhouse_odbc.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;CLICKHOUSE_ODBC_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;CPPHTTPLIB_ZLIB_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\include;$(SolutionDir)third_party\cpp-httplib;$(SolutionDir)third_party\nlohmann;$(SolutionDir)third_party\zlib\include;$(SolutionDir)third_party\zlib_src\zlib-1.3.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;ws2_32.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ModuleDefinitionFile>$(SolutionDir)src\clickhouse_odbc.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="installer\installer.cpp" />
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\clickhouse_odbc.cpp" />
+    <ClCompile Include="src\handle.cpp" />
+    <ClCompile Include="src\connection.cpp" />
+    <ClCompile Include="src\statement.cpp" />
+    <ClCompile Include="src\result.cpp" />
+    <ClCompile Include="src\catalog.cpp" />
+    <ClCompile Include="src\info.cpp" />
+    <ClCompile Include="src\clickhouse_client.cpp" />
+    <ClCompile Include="src\type_mapping.cpp" />
+    <ClCompile Include="src\util.cpp" />
+    <ClCompile Include="src\trace.cpp" />
+    <ClCompile Include="src\config_dsn.cpp" />
+    <ClCompile Include="src\descriptor.cpp" />
+    <ClCompile Include="test\test_access_workflow.cpp" />
+    <ClCompile Include="test\test_handle.cpp" />
+    <ClCompile Include="test\test_main.cpp" />
+    <ClCompile Include="test\test_odbc_api.cpp" />
+    <ClCompile Include="test\test_odbc_handle.cpp" />
+    <ClCompile Include="test\test_phase10.cpp" />
+    <ClCompile Include="test\test_phase11.cpp" />
+    <ClCompile Include="test\test_phase12.cpp" />
+    <ClCompile Include="test\test_phase13.cpp" />
+    <ClCompile Include="test\test_phase14.cpp" />
+    <ClCompile Include="test\test_phase15.cpp" />
+    <ClCompile Include="test\test_phase16.cpp" />
+    <ClCompile Include="test\test_phase17.cpp" />
+    <ClCompile Include="test\test_phase18.cpp" />
+    <ClCompile Include="test\test_phase19.cpp" />
+    <ClCompile Include="test\test_phase2.cpp" />
+    <ClCompile Include="test\test_phase20.cpp" />
+    <ClCompile Include="test\test_phase21.cpp" />
+    <ClCompile Include="test\test_phase3.cpp" />
+    <ClCompile Include="test\test_phase4.cpp" />
+    <ClCompile Include="test\test_phase5.cpp" />
+    <ClCompile Include="test\test_phase5b.cpp" />
+    <ClCompile Include="test\test_phase6.cpp" />
+    <ClCompile Include="test\test_phase7.cpp" />
+    <ClCompile Include="test\test_phase8.cpp" />
+    <ClCompile Include="test\test_phase9.cpp" />
+    <ClCompile Include="test\test_type_mapping.cpp" />
+    <ClCompile Include="test\test_util.cpp" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\adler32.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\compress.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\crc32.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\deflate.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\gzclose.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\gzlib.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\gzread.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\gzwrite.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\infback.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\inffast.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\inflate.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\inftrees.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\trees.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\uncompr.c" />
+    <ClCompile Include="third_party\zlib_src\zlib-1.3.1\zutil.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="installer\resource.h" />
+    <ClInclude Include="src\include\handle.h" />
+    <ClInclude Include="src\include\clickhouse_client.h" />
+    <ClInclude Include="src\include\type_mapping.h" />
+    <ClInclude Include="src\include\util.h" />
+    <ClInclude Include="src\include\trace.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="test\test_framework.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="installer\installer.rc" />
+    <ResourceCompile Include="src\clickhouse_odbc.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".github\copilot-instructions.md" />
+    <None Include=".github\workflows\ci.yml" />
+    <None Include=".github\workflows\release.yml" />
+    <None Include=".gitignore" />
+    <None Include="build_release_package.bat" />
+    <None Include="CHANGELOG.md" />
+    <None Include="clickhouse_odbc_test.vcxproj" />
+    <None Include="Directory.Build.props" />
+    <None Include="Directory.Build.targets" />
+    <None Include="docs\ARCHITECTURE.md" />
+    <None Include="docs\CONTRIBUTING.md" />
+    <None Include="docs\MSACCESS_COMPATIBILITY.md" />
+    <None Include="docs\ROADMAP.md" />
+    <None Include="installer\clickhouse_odbc_installer.vcxproj" />
+    <None Include="LICENSE" />
+    <None Include="README.md" />
+    <None Include="setup\create_dsn.bat" />
+    <None Include="setup\register_driver.bat" />
+    <None Include="setup\remove_dsn.bat" />
+    <None Include="setup\unregister_driver.bat" />
+    <None Include="src\clickhouse_odbc.def" />
+    <None Include="test\enable_trace.ps1" />
+    <None Include="test\test_phase5b.cpp.bak" />
+    <None Include="test\test_phase5b.cpp.tmp" />
+    <None Include="THIRD_PARTY_LICENSES.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\temp\SQL.LOG" />
+    <Text Include="CMakeLists.txt" />
+    <Text Include="setup\README_SETUP.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <!-- Copy setup batch files to output directory after build -->
+  <Target Name="CopySetupFiles" AfterTargets="Build">
+    <Copy SourceFiles="$(SolutionDir)setup\register_driver.bat" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SolutionDir)setup\unregister_driver.bat" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SolutionDir)setup\create_dsn.bat" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SolutionDir)setup\remove_dsn.bat" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SolutionDir)setup\setup.inf" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(SolutionDir)setup\README_SETUP.txt" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

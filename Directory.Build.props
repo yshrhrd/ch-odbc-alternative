@@ -1,0 +1,27 @@
+<Project>
+  <!-- OpenSSL root directory (set OPENSSL_ROOT_DIR environment variable or edit this path) -->
+  <PropertyGroup>
+    <OpenSSLDir Condition="'$(OPENSSL_ROOT_DIR)'!=''">$(OPENSSL_ROOT_DIR)</OpenSSLDir>
+    <OpenSSLDir Condition="'$(OpenSSLDir)'=='' AND Exists('C:\Program Files\OpenSSL-Win64')">C:\Program Files\OpenSSL-Win64</OpenSSLDir>
+    <OpenSSLDir Condition="'$(OpenSSLDir)'=='' AND Exists('C:\OpenSSL-Win64')">C:\OpenSSL-Win64</OpenSSLDir>
+    <HasOpenSSL Condition="'$(OpenSSLDir)'!='' AND Exists('$(OpenSSLDir)\include\openssl\ssl.h')">true</HasOpenSSL>
+    <HasOpenSSL Condition="'$(HasOpenSSL)'!='true'">false</HasOpenSSL>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_NONSTDC_NO_DEPRECATE;CPPHTTPLIB_ZLIB_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)third_party\zlib\include;$(SolutionDir)third_party\zlib_src\zlib-1.3.1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- OpenSSL support (conditional on availability) -->
+  <ItemDefinitionGroup Condition="'$(HasOpenSSL)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>CPPHTTPLIB_OPENSSL_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(OpenSSLDir)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(OpenSSLDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libssl.lib;libcrypto.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+</Project>

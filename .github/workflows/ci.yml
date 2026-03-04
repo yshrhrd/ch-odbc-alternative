@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        configuration: [Release]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build DLL
+        run: msbuild clickhouse_odbc.vcxproj /p:Configuration=${{ matrix.configuration }} /p:Platform=x64 /p:PlatformToolset=v143 /m
+
+      - name: Build Tests
+        run: msbuild clickhouse_odbc_test.vcxproj /p:Configuration=${{ matrix.configuration }} /p:Platform=x64 /p:PlatformToolset=v143 /m
+
+      - name: Build Installer
+        run: msbuild installer\clickhouse_odbc_installer.vcxproj /p:Configuration=${{ matrix.configuration }} /p:Platform=x64 /p:PlatformToolset=v143 /m
+
+      - name: Run Tests
+        run: .\out\${{ matrix.configuration }}\test\ch-odbc-alternative-test.exe
+
+      - name: Upload Build Artifacts
+        if: matrix.configuration == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-package
+          path: |
+            out/Release/ch-odbc-alternative.dll
+            out/Release/ch-odbc-alternative-installer.exe
+            setup/register_driver.bat
+            setup/unregister_driver.bat
+            setup/create_dsn.bat
+            setup/remove_dsn.bat
+            setup/setup.inf
+            setup/README_SETUP.txt
+          retention-days: 7
