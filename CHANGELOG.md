@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.1.2] - 2026-03-04
+
+### Fixed
+- **GitHub Release missing binary package** (`.github/workflows/release.yml`):
+  - ZIP file was not attached to GitHub Release due to Windows backslash path issue in `softprops/action-gh-release`
+  - Changed to glob pattern (`dist/*.zip`) for reliable file matching
+  - Added ZIP creation verification step with file size output
+  - Changed `fail_on_unmatched_files` from `false` to `true` to catch upload failures
+
 ## [1.1.1] - 2026-03-03
 
 ### Fixed

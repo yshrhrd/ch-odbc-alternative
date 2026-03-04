@@ -65,24 +65,37 @@ jobs:
 
           New-Item -ItemType Directory -Path $distDir -Force | Out-Null
 
-          # DLL
-          Copy-Item "build\Release\ch-odbc-alternative.dll" $distDir
-
-          # Installer
-          Copy-Item "build\Release\ch-odbc-alternative-installer.exe" $distDir
-
-          # Setup batch files
-          Copy-Item "setup\register_driver.bat"   $distDir
-          Copy-Item "setup\unregister_driver.bat"  $distDir
-          Copy-Item "setup\create_dsn.bat"         $distDir
-          Copy-Item "setup\remove_dsn.bat"         $distDir
-          Copy-Item "setup\setup.inf"              $distDir
-          Copy-Item "setup\README_SETUP.txt"       $distDir
+          # Copy all files from build output (DLL, installer, scripts, docs)
+          $files = @(
+            'ch-odbc-alternative.dll',
+            'ch-odbc-alternative-installer.exe',
+            'register_driver.bat',
+            'unregister_driver.bat',
+            'create_dsn.bat',
+            'remove_dsn.bat',
+            'setup.inf',
+            'README_SETUP.txt'
+          )
+          foreach ($f in $files) {
+            $src = "build\Release\$f"
+            if (Test-Path $src) {
+              Copy-Item $src $distDir
+            } else {
+              Write-Warning "Not found: $src"
+            }
+          }
 
           # Create ZIP
           $zipName = "ch-odbc-alternative-${version}-x64.zip"
-          Compress-Archive -Path "$distDir\*" -DestinationPath "dist\$zipName"
-          echo "ZIP_PATH=dist\$zipName" >> $env:GITHUB_OUTPUT
+          $zipPath = "dist/$zipName"
+          Compress-Archive -Path "$distDir\*" -DestinationPath $zipPath
+          if (-not (Test-Path $zipPath)) {
+            Write-Error "ZIP creation failed: $zipPath"
+            exit 1
+          }
+          $size = (Get-Item $zipPath).Length
+          Write-Host "Created $zipPath ($size bytes)"
+          echo "ZIP_PATH=$zipPath" >> $env:GITHUB_OUTPUT
           echo "ZIP_NAME=$zipName" >> $env:GITHUB_OUTPUT
         id: package
 
@@ -126,5 +139,5 @@ jobs:
           draft: ${{ inputs.draft }}
           prerelease: ${{ inputs.prerelease }}
           files: |
-            ${{ steps.package.outputs.ZIP_PATH }}
-          fail_on_unmatched_files: false
+            dist/*.zip
+          fail_on_unmatched_files: true

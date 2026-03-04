@@ -34,6 +34,10 @@
          create_dsn.bat MyClickHouse clickhouse.example.com 8123 default default
          create_dsn.bat MyClickHouse clickhouse.example.com 8443 default default /ssl
 
+    NOTE: The DLL and all scripts must be in the same folder.
+          After building from source, run scripts from build\Release\
+          where both the DLL and scripts are placed together.
+
 ** Connection String
 
   Driver={CH ODBC Alternative};Host=localhost;Port=8123;Database=default;UID=default;PWD=;

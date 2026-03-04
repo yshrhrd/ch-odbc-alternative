@@ -42,41 +42,27 @@ if exist "%DIST_DIR%" (
 )
 mkdir "%DIST_DIR%"
 
-echo Copying files...
+echo Copying files from build\Release\ ...
 echo.
 
-REM DLL
-copy /Y "%DLL_PATH%" "%DIST_DIR%\" >nul
-echo   [OK] ch-odbc-alternative.dll
-
-REM GUI Installer
-set INSTALLER_PATH=build\Release\ch-odbc-alternative-installer.exe
-if exist "%INSTALLER_PATH%" (
-    copy /Y "%INSTALLER_PATH%" "%DIST_DIR%\" >nul
-    echo   [OK] ch-odbc-alternative-installer.exe
-) else (
-    echo   [WARN] ch-odbc-alternative-installer.exe not found
-    echo         Build the installer project first: msbuild clickhouse_odbc.sln /p:Configuration=Release /p:Platform=x64
+REM All files are in build\Release\ (DLL + scripts copied by CopySetupFiles target)
+for %%F in (
+    ch-odbc-alternative.dll
+    ch-odbc-alternative-installer.exe
+    register_driver.bat
+    unregister_driver.bat
+    create_dsn.bat
+    remove_dsn.bat
+    setup.inf
+    README_SETUP.txt
+) do (
+    if exist "build\Release\%%F" (
+        copy /Y "build\Release\%%F" "%DIST_DIR%\" >nul
+        echo   [OK] %%F
+    ) else (
+        echo   [WARN] %%F not found
+    )
 )
-
-REM Setup files
-copy /Y "setup\register_driver.bat" "%DIST_DIR%\" >nul
-echo   [OK] register_driver.bat
-
-copy /Y "setup\unregister_driver.bat" "%DIST_DIR%\" >nul
-echo   [OK] unregister_driver.bat
-
-copy /Y "setup\create_dsn.bat" "%DIST_DIR%\" >nul
-echo   [OK] create_dsn.bat
-
-copy /Y "setup\remove_dsn.bat" "%DIST_DIR%\" >nul
-echo   [OK] remove_dsn.bat
-
-copy /Y "setup\setup.inf" "%DIST_DIR%\" >nul
-echo   [OK] setup.inf
-
-copy /Y "setup\README_SETUP.txt" "%DIST_DIR%\" >nul
-echo   [OK] README_SETUP.txt
 
 echo.
 echo ============================================
