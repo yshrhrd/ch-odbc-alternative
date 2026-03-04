@@ -110,8 +110,8 @@ TEST(ODBC_Info, GetInfo_DriverName) {
     SQLRETURN ret = SQLGetInfo(conn, SQL_DRIVER_NAME, buffer, sizeof(buffer), &len);
     AssertEqual((int)SQL_SUCCESS, (int)ret);
     AssertTrue(len > 0, "Driver name length should be > 0");
-    AssertTrue(std::string((char *)buffer).find("clickhouse") != std::string::npos,
-               "Driver name should contain 'clickhouse'");
+    AssertTrue(std::string((char *)buffer).find("ch-odbc") != std::string::npos,
+               "Driver name should contain 'ch-odbc'");
 
     SQLFreeHandle(SQL_HANDLE_DBC, conn);
     SQLFreeHandle(SQL_HANDLE_ENV, env);

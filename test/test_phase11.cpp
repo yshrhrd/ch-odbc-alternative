@@ -238,7 +238,7 @@ TEST(Phase11_GetInfo, DriverVer) {
     SQLSMALLINT len = 0;
     SQLRETURN ret = SQLGetInfo(dbc, SQL_DRIVER_VER, buf, sizeof(buf), &len);
     AssertEqual((int)SQL_SUCCESS, (int)ret);
-    AssertEqual(std::string("01.00.0000"), std::string(buf));
+    AssertEqual(std::string("01.01.0000"), std::string(buf));
     FreeConnHandles(env, dbc);
 }
 
