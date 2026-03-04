@@ -2,7 +2,7 @@
 
 All notable changes to this project are documented in this file.
 
-## [Unreleased]
+## [1.1.1] - 2026-03-03
 
 ### Fixed
 - **MS Access 2GB limit on large table navigation** (`src/statement.cpp`, `src/include/handle.h`):
