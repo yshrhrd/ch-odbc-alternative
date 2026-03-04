@@ -58,78 +58,72 @@ jobs:
 
       # --- Package ---
       - name: Create release package
+        id: package
         shell: pwsh
         run: |
           $version = "${{ steps.version.outputs.VERSION }}"
-          $distDir = "dist\ch-odbc-alternative-${version}-x64"
+          $distDir = "dist/ch-odbc-alternative-${version}-x64"
 
           New-Item -ItemType Directory -Path $distDir -Force | Out-Null
 
-          # Copy all files from build output (DLL, installer, scripts, docs)
-          $files = @(
-            'ch-odbc-alternative.dll',
-            'ch-odbc-alternative-installer.exe',
-            'register_driver.bat',
-            'unregister_driver.bat',
-            'create_dsn.bat',
-            'remove_dsn.bat',
-            'setup.inf',
-            'README_SETUP.txt'
-          )
-          foreach ($f in $files) {
-            $src = "build\Release\$f"
-            if (Test-Path $src) {
-              Copy-Item $src $distDir
-            } else {
-              Write-Warning "Not found: $src"
-            }
+          # DLL
+          Copy-Item "build/Release/ch-odbc-alternative.dll" $distDir
+
+          # Installer
+          if (Test-Path "build/Release/ch-odbc-alternative-installer.exe") {
+              Copy-Item "build/Release/ch-odbc-alternative-installer.exe" $distDir
           }
+
+          # Setup batch files
+          Copy-Item "setup/register_driver.bat"   $distDir
+          Copy-Item "setup/unregister_driver.bat"  $distDir
+          Copy-Item "setup/create_dsn.bat"         $distDir
+          Copy-Item "setup/remove_dsn.bat"         $distDir
+          Copy-Item "setup/setup.inf"              $distDir
+          Copy-Item "setup/README_SETUP.txt"       $distDir
+
+          # List package contents
+          Write-Host "=== Package contents ==="
+          Get-ChildItem $distDir | ForEach-Object { Write-Host "  $($_.Name)  ($($_.Length) bytes)" }
 
           # Create ZIP
           $zipName = "ch-odbc-alternative-${version}-x64.zip"
           $zipPath = "dist/$zipName"
-          Compress-Archive -Path "$distDir\*" -DestinationPath $zipPath
+          Compress-Archive -Path "$distDir/*" -DestinationPath $zipPath
           if (-not (Test-Path $zipPath)) {
-            Write-Error "ZIP creation failed: $zipPath"
-            exit 1
+              Write-Error "ZIP creation failed"
+              exit 1
           }
           $size = (Get-Item $zipPath).Length
-          Write-Host "Created $zipPath ($size bytes)"
+          Write-Host "=== Created: $zipPath ($size bytes) ==="
+
+          # Use forward slashes for GitHub Actions
           echo "ZIP_PATH=$zipPath" >> $env:GITHUB_OUTPUT
           echo "ZIP_NAME=$zipName" >> $env:GITHUB_OUTPUT
-        id: package
 
-      # --- GitHub Release ---
-      - name: Generate release notes from CHANGELOG
-        id: notes
+      # --- Release Notes ---
+      - name: Generate release notes
         shell: pwsh
         run: |
           $version = "${{ steps.version.outputs.VERSION }}"
+          $body = "Release $version"
+
           $content = Get-Content "CHANGELOG.md" -Raw -ErrorAction SilentlyContinue
-          if (-not $content) {
-              $body = "Release $version"
-              echo "BODY=$body" >> $env:GITHUB_OUTPUT
-              return
+          if ($content) {
+              $escapedVer = [regex]::Escape($version)
+              $pattern = "(?ms)^## \[$escapedVer\].*?(?=^## \[|\z)"
+              $match = [regex]::Match($content, $pattern, 'Multiline')
+              if ($match.Success) {
+                  $body = $match.Value.Trim()
+              }
           }
 
-          # Extract the section for this version (between ## [version] and next ## [)
-          $escapedVer = [regex]::Escape($version)
-          $pattern = "(?ms)^## \[$escapedVer\].*?(?=^## \[|\z)"
-          $match = [regex]::Match($content, $pattern, 'Multiline')
-          if ($match.Success) {
-              $body = $match.Value.Trim()
-          } else {
-              $body = "Release $version"
-          }
+          # Always write the file
+          $body | Out-File -FilePath "release_notes.md" -Encoding utf8NoBOM
+          Write-Host "=== Release notes ==="
+          Write-Host $body
 
-          # Write to file to avoid escaping issues
-          $body | Out-File -FilePath "release_notes.md" -Encoding utf8
-
-      - name: Create Git tag
-        run: |
-          git tag ${{ steps.version.outputs.TAG }}
-          git push origin ${{ steps.version.outputs.TAG }}
-
+      # --- Git Tag + GitHub Release ---
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -138,6 +132,5 @@ jobs:
           body_path: release_notes.md
           draft: ${{ inputs.draft }}
           prerelease: ${{ inputs.prerelease }}
-          files: |
-            dist/*.zip
-          fail_on_unmatched_files: true
+          files: ${{ steps.package.outputs.ZIP_PATH }}
+          make_latest: true
