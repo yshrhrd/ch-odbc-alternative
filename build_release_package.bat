@@ -19,7 +19,7 @@ if "%~1"=="" (
 )
 
 set DIST_DIR=dist\ch-odbc-alternative-%VERSION%-x64
-set DLL_PATH=out\Release\ch-odbc-alternative.dll
+set DLL_PATH=build\Release\ch-odbc-alternative.dll
 
 echo ============================================
 echo  Creating Release Package
@@ -50,12 +50,13 @@ copy /Y "%DLL_PATH%" "%DIST_DIR%\" >nul
 echo   [OK] ch-odbc-alternative.dll
 
 REM GUI Installer
-set INSTALLER_PATH=out\Release\ch-odbc-alternative-installer.exe
+set INSTALLER_PATH=build\Release\ch-odbc-alternative-installer.exe
 if exist "%INSTALLER_PATH%" (
     copy /Y "%INSTALLER_PATH%" "%DIST_DIR%\" >nul
     echo   [OK] ch-odbc-alternative-installer.exe
 ) else (
-    echo   [--] ch-odbc-alternative-installer.exe not found (skipped)
+    echo   [WARN] ch-odbc-alternative-installer.exe not found
+    echo         Build the installer project first: msbuild clickhouse_odbc.sln /p:Configuration=Release /p:Platform=x64
 )
 
 REM Setup files

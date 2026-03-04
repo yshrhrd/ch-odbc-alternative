@@ -42,14 +42,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)out\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)out\$(Configuration)\installer_obj\</IntDir>
+    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Configuration)\installer_obj\</IntDir>
     <TargetName>ch-odbc-alternative-installer</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)out\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)out\$(Configuration)\installer_obj\</IntDir>
+    <OutDir>$(SolutionDir)build\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(Configuration)\installer_obj\</IntDir>
     <TargetName>ch-odbc-alternative-installer</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>

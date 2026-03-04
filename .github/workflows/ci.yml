@@ -29,17 +29,11 @@ jobs:
           tar -xzf zlib.tar.gz -C third_party/zlib_src
           Remove-Item zlib.tar.gz
 
-      - name: Build DLL
-        run: msbuild clickhouse_odbc.vcxproj /p:Configuration=${{ matrix.configuration }} /p:Platform=x64 /p:PlatformToolset=v143 /m
-
-      - name: Build Tests
-        run: msbuild clickhouse_odbc_test.vcxproj /p:Configuration=${{ matrix.configuration }} /p:Platform=x64 /p:PlatformToolset=v143 /m
-
-      - name: Build Installer
-        run: msbuild installer\clickhouse_odbc_installer.vcxproj /p:Configuration=${{ matrix.configuration }} /p:Platform=x64 /p:PlatformToolset=v143 /m
+      - name: Build Solution
+        run: msbuild clickhouse_odbc.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=x64 /p:PlatformToolset=v143 /m
 
       - name: Run Tests
-        run: .\out\${{ matrix.configuration }}\test\ch-odbc-alternative-test.exe
+        run: .\build\${{ matrix.configuration }}\test\ch-odbc-alternative-test.exe
 
       - name: Upload Build Artifacts
         if: matrix.configuration == 'Release'
@@ -47,8 +41,8 @@ jobs:
         with:
           name: release-package
           path: |
-            out/Release/ch-odbc-alternative.dll
-            out/Release/ch-odbc-alternative-installer.exe
+            build/Release/ch-odbc-alternative.dll
+            build/Release/ch-odbc-alternative-installer.exe
             setup/register_driver.bat
             setup/unregister_driver.bat
             setup/create_dsn.bat

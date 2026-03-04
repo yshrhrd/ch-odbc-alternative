@@ -588,12 +588,12 @@ When the 2GB error occurs, set `MaxLazyRows` based on the average row size:
 
 ```powershell
 # Debug build & test
-msbuild clickhouse_odbc_test.vcxproj /p:Configuration=Debug /p:Platform=x64 /m:1
-.\out\Debug\test\ch-odbc-alternative-test.exe
+msbuild clickhouse_odbc.sln /p:Configuration=Debug /p:Platform=x64 /m
+.\build\Debug\test\ch-odbc-alternative-test.exe
 
 # Release build & test
-msbuild clickhouse_odbc_test.vcxproj /p:Configuration=Release /p:Platform=x64 /m:1
-.\out\Release\test\ch-odbc-alternative-test.exe
+msbuild clickhouse_odbc.sln /p:Configuration=Release /p:Platform=x64 /m
+.\build\Release\test\ch-odbc-alternative-test.exe
 ```
 
 ---

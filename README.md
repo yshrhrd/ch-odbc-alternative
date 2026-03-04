@@ -122,10 +122,10 @@ Driver={CH ODBC Alternative};Host=localhost;Port=8123;Database=default;UID=defau
 
 ```bat
 REM Run tests after Debug build
-out\Debug\test\ch-odbc-alternative-test.exe
+build\Debug\test\ch-odbc-alternative-test.exe
 
 REM Run tests after Release build
-out\Release\test\ch-odbc-alternative-test.exe
+build\Release\test\ch-odbc-alternative-test.exe
 ```
 
 784 unit tests (no ClickHouse server required):

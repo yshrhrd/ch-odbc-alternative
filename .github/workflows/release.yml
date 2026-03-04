@@ -49,18 +49,12 @@ jobs:
           Remove-Item zlib.tar.gz
 
       # --- Build ---
-      - name: Build DLL (Release)
-        run: msbuild clickhouse_odbc.vcxproj /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /m
-
-      - name: Build Tests (Release)
-        run: msbuild clickhouse_odbc_test.vcxproj /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /m
-
-      - name: Build Installer (Release)
-        run: msbuild installer\clickhouse_odbc_installer.vcxproj /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /m
+      - name: Build Solution (Release)
+        run: msbuild clickhouse_odbc.sln /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /m
 
       # --- Test ---
       - name: Run Tests
-        run: .\out\Release\test\ch-odbc-alternative-test.exe
+        run: .\build\Release\test\ch-odbc-alternative-test.exe
 
       # --- Package ---
       - name: Create release package
@@ -72,14 +66,12 @@ jobs:
           New-Item -ItemType Directory -Path $distDir -Force | Out-Null
 
           # DLL
-          Copy-Item "out\Release\ch-odbc-alternative.dll" $distDir
+          Copy-Item "build\Release\ch-odbc-alternative.dll" $distDir
 
           # Installer
-          if (Test-Path "out\Release\ch-odbc-alternative-installer.exe") {
-              Copy-Item "out\Release\ch-odbc-alternative-installer.exe" $distDir
-          }
+          Copy-Item "build\Release\ch-odbc-alternative-installer.exe" $distDir
 
-          # Setup batch files (copied to out\Release\ by post-build, also available in setup\)
+          # Setup batch files
           Copy-Item "setup\register_driver.bat"   $distDir
           Copy-Item "setup\unregister_driver.bat"  $distDir
           Copy-Item "setup\create_dsn.bat"         $distDir
